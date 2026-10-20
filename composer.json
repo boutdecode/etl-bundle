@@ -1,0 +1,64 @@
+{
+    "name": "boutdecode/etl-bundle",
+    "description": "Symfony Bundle providing Doctrine persistence and a REST API on top of boutdecode/etl-core-bundle.",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "keywords": ["symfony", "bundle", "etl", "doctrine", "api"],
+    "require": {
+        "php": ">=8.2",
+        "api-platform/doctrine-orm": "^4.1",
+        "api-platform/symfony": "^4.1",
+        "boutdecode/etl-core-bundle": "^0.14",
+        "doctrine/doctrine-bundle": "^2.13",
+        "doctrine/orm": "^3.6",
+        "dragonmantank/cron-expression": "^3.6",
+        "symfony/framework-bundle": "^6.4 || ^7.0",
+        "symfony/property-access": "^6.4 || ^7.0",
+        "symfony/property-info": "^6.4 || ^7.0",
+        "symfony/serializer": "^6.4 || ^7.0",
+        "symfony/uid": "^6.4 || ^7.0",
+        "symfony/validator": "^6.4 || ^7.0",
+        "webmozart/assert": "^1.11"
+    },
+    "require-dev": {
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^11.0",
+        "symfony/browser-kit": "^6.4 || ^7.0",
+        "symfony/yaml": "^6.4 || ^7.0",
+        "symplify/easy-coding-standard": "^13.0"
+    },
+    "conflict": {
+        "symfony/framework-bundle": ">=8.0",
+        "symfony/uid": ">=8.0",
+        "symfony/validator": ">=8.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "BoutDeCode\\ETLBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BoutDeCode\\ETLBundle\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "ecs": ["ecs check"],
+        "ecs:fix": ["ecs check --fix"],
+        "phpstan": ["phpstan analyse --no-progress"],
+        "test:unit": ["phpunit --testsuite Unit"],
+        "test:integration": ["rm -rf var/cache", "phpunit --testsuite Integration"],
+        "test": ["@test:unit", "@test:integration"]
+    }
+}

@@ -1,0 +1,32 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # Doctrine implementations of the Persister / Provider interfaces of etl-core.
+    # Symfony aliases each interface to its single implementation in this namespace.
+    BoutDeCode\ETLBundle\Repository\:
+        resource: '../../Repository/'
+
+    # Implementations of the Factory interfaces of etl-core.
+    BoutDeCode\ETLBundle\Factory\:
+        resource: '../../Factory/'
+
+    BoutDeCode\ETLBundle\Scheduler\:
+        resource: '../../Scheduler/'
+
+    BoutDeCode\ETLBundle\Service\:
+        resource: '../../Service/'
+
+    # The implementations of the etl-core interfaces are aliased with #[AsAlias] on each class.
+    # Not left to the core: its alias compiler pass skips them, since the core registers every
+    # interface of its namespace as an abstract definition.
+
+    # Required by etl-core's ConsoleCommandExecutorStep, which autowires the console application,
+    # a service Symfony does not register on its own. Applications may override this definition.
+    # Not autoconfigured: the application implements ResetInterface and resetting it
+    # resets the services again, which would recurse forever.
+    Symfony\Bundle\FrameworkBundle\Console\Application:
+        autoconfigure: false
+        arguments: ['@kernel']

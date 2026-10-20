@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace BoutDeCode\ETLBundle\Tests\Integration;
+
+use BoutDeCode\ETLBundle\Api\State\WorkflowProcessor;
+use BoutDeCode\ETLBundle\Repository\WorkflowRepository;
+
+/**
+ * Same kernel with `boutdecode_etl.api.enabled: false`.
+ */
+final class ApiDisabledTest extends ApiTestCase
+{
+    protected const ENVIRONMENT = 'test_no_api';
+
+    public function testNoRouteIsExposed(): void
+    {
+        $this->request('GET', '/workflows', null, 404);
+        $this->request('GET', '/pipelines', null, 404);
+        $this->request('GET', '/executable_steps', null, 404);
+    }
+
+    public function testApiServicesAreNotRegistered(): void
+    {
+        self::assertFalse(static::getContainer()->has(WorkflowProcessor::class));
+        self::assertFalse(static::getContainer()->getParameter('boutdecode_etl.api.enabled'));
+    }
+
+    public function testPersistenceStillWorks(): void
+    {
+        $workflows = static::getContainer()->get('doctrine')->getRepository(\BoutDeCode\ETLBundle\Entity\Workflow::class);
+        self::assertInstanceOf(WorkflowRepository::class, $workflows);
+
+        $workflows->create(new \BoutDeCode\ETLBundle\Entity\Workflow('Still stored'));
+
+        self::assertCount(1, $workflows->findAll());
+    }
+}

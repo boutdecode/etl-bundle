@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # State providers and processors of the API Platform resources.
+    BoutDeCode\ETLBundle\Api\State\:
+        resource: '../../Api/State/'
