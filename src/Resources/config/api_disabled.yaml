@@ -2,7 +2,7 @@ services:
     # Loaded when `boutdecode_etl.api.enabled` is false. The decoration is ignored when API Platform
     # is not registered.
     # Priority sits above the cache decorator (-10) so that the cache only stores the filtered list.
-    BoutDeCode\ETLBundle\Api\Metadata\ExcludeBundleResourceNameCollectionFactory:
+    BoutDeCode\ETLBundle\Core\Infrastructure\Api\Metadata\ExcludeBundleResourceNameCollectionFactory:
         decorates: api_platform.metadata.resource.name_collection_factory
         decoration_priority: -5
         decoration_on_invalid: ignore

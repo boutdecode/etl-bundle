@@ -25,7 +25,12 @@ final class ETLExtension extends Extension implements PrependExtensionInterface
         if ($config['api']['enabled'] && $container->hasExtension('api_platform')) {
             $container->prependExtensionConfig('api_platform', [
                 'mapping' => [
-                    'paths' => [__DIR__ . '/../Entity', __DIR__ . '/../Api/Resource'],
+                    'paths' => [
+                        __DIR__ . '/../Core/Infrastructure/Persistence/ORM/Entity',
+                        __DIR__ . '/../Run/Infrastructure/Persistence/ORM/Entity',
+                        __DIR__ . '/../Statistics/Infrastructure/Persistence/ORM/Entity',
+                        __DIR__ . '/../ETL/Infrastructure/Api/Resource',
+                    ],
                 ],
             ]);
         }
@@ -34,17 +39,20 @@ final class ETLExtension extends Extension implements PrependExtensionInterface
             return;
         }
 
+        $mappings = [];
+        foreach (['Core', 'Run', 'Statistics'] as $context) {
+            $mappings['BoutDeCodeETL' . $context] = [
+                'type' => 'attribute',
+                'is_bundle' => false,
+                'dir' => __DIR__ . '/../' . $context . '/Infrastructure/Persistence/ORM/Entity',
+                'prefix' => 'BoutDeCode\\ETLBundle\\' . $context . '\\Infrastructure\\Persistence\\ORM\\Entity',
+                'alias' => 'BoutDeCodeETL' . $context,
+            ];
+        }
+
         $container->prependExtensionConfig('doctrine', [
             'orm' => [
-                'mappings' => [
-                    'BoutDeCodeETLBundle' => [
-                        'type' => 'attribute',
-                        'is_bundle' => false,
-                        'dir' => __DIR__ . '/../Entity',
-                        'prefix' => 'BoutDeCode\ETLBundle\Entity',
-                        'alias' => 'BoutDeCodeETL',
-                    ],
-                ],
+                'mappings' => $mappings,
             ],
         ]);
     }

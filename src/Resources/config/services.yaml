@@ -4,20 +4,24 @@ services:
         autoconfigure: true
         public: false
 
-    # Doctrine implementations of the Persister / Provider interfaces of etl-core.
-    # Symfony aliases each interface to its single implementation in this namespace.
-    BoutDeCode\ETLBundle\Repository\:
-        resource: '../../Repository/'
+    # Doctrine repositories, factories and the scheduler implement the Persister / Provider /
+    # Factory / ExpressionScheduler interfaces of etl-core. Symfony aliases each interface to its
+    # single implementation in these namespaces. Entities, API payloads, resources and state classes
+    # are registered separately (or not at all).
+    BoutDeCode\ETLBundle\Core\Infrastructure\:
+        resource: '../../Core/Infrastructure/'
+        exclude: '../../Core/Infrastructure/{Api,Persistence/ORM/Entity}/'
 
-    # Implementations of the Factory interfaces of etl-core.
-    BoutDeCode\ETLBundle\Factory\:
-        resource: '../../Factory/'
+    BoutDeCode\ETLBundle\Run\Infrastructure\:
+        resource: '../../Run/Infrastructure/'
+        exclude: '../../Run/Infrastructure/{Api,Persistence/ORM/Entity}/'
 
-    BoutDeCode\ETLBundle\Scheduler\:
-        resource: '../../Scheduler/'
+    BoutDeCode\ETLBundle\Run\Application\:
+        resource: '../../Run/Application/'
 
-    BoutDeCode\ETLBundle\Service\:
-        resource: '../../Service/'
+    BoutDeCode\ETLBundle\Statistics\Infrastructure\:
+        resource: '../../Statistics/Infrastructure/'
+        exclude: '../../Statistics/Infrastructure/Persistence/ORM/Entity/'
 
     # The implementations of the etl-core interfaces are aliased with #[AsAlias] on each class.
     # Not left to the core: its alias compiler pass skips them, since the core registers every

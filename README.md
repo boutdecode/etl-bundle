@@ -116,7 +116,7 @@ boutdecode_etl:
         enabled: true   # default: true — set to false to not expose the entities as API resources
 ```
 
-With `enabled: false` the bundle's resources are hidden from API Platform (no route, no OpenAPI entry) and its state processors are not registered; the entities, repositories and factories keep working. This is done by filtering the resource list rather than through the mapping, because API Platform scans the `Entity` directory of every registered bundle by itself.
+With `enabled: false` the bundle's resources are hidden from API Platform (no route, no OpenAPI entry) and its state processors are not registered; the entities, repositories and factories keep working. This is done by filtering the resource list rather than through the mapping, because API Platform may discover resources on its own (it scans the `Entity` directory of every registered bundle), independently of the mapping paths this bundle prepends.
 
 The bundle does not secure the API. Protect the prefix with your own `access_control` rules or a firewall:
 

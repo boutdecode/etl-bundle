@@ -5,5 +5,11 @@ services:
         public: false
 
     # State providers and processors of the API Platform resources.
-    BoutDeCode\ETLBundle\Api\State\:
-        resource: '../../Api/State/'
+    BoutDeCode\ETLBundle\Core\Infrastructure\Api\State\:
+        resource: '../../Core/Infrastructure/Api/State/'
+
+    BoutDeCode\ETLBundle\Run\Infrastructure\Api\State\:
+        resource: '../../Run/Infrastructure/Api/State/'
+
+    BoutDeCode\ETLBundle\ETL\Infrastructure\Api\State\:
+        resource: '../../ETL/Infrastructure/Api/State/'

@@ -4,12 +4,13 @@ This is a Symfony **bundle**, not an application: there is no `bin/console`, `.e
 
 ## Layout
 
-- `src/Entity` — concrete entities extending the core's `Abstract*` models. Mapping is prepended by `DependencyInjection/ETLExtension`.
-- `src/Repository` — implement the core's `Persister` / `Provider` interfaces.
-- `src/Factory`, `src/Scheduler` — implement the core's `*Factory` and `ExpressionScheduler` interfaces.
-- `src/Service/PipelineLauncher` — creates, schedules and dispatches a pipeline.
-- `src/Api` — API Platform layer. Entities carry the `#[ApiResource]` attributes (and serialization groups where the core's getters would leak internals); `Api/State` holds the providers/processors, which go through the core's `CommandBus`; `Api/Request` the validated input DTOs; `Api/Resource` the non-Doctrine `ExecutableStep` resource.
-- `#[AsAlias]` on each repository, factory and the scheduler — aliases the core interface to its implementation here. Add one when the core adds an interface.
+The tree mirrors the core's DDD layout: one bounded context per directory (`Core`, `Run`, `Statistics`, `ETL`), each split into layers, and a class lives in the context of the core interface it implements. `tests/Unit` and `tests/Integration` mirror `src/`.
+
+- `src/<Context>/Infrastructure/Persistence/ORM` — the Doctrine layer, split into `Entity` (concrete entities extending the core's `Abstract*` models: `Core`: Pipeline, PlannedTask, Step, Workflow; `Run`: PipelineHistory, StepHistory; `Statistics`: WorkflowStatistic, WorkflowExecutionStatistic), `Repository` (implement the core's `Persister` / `Provider` interfaces) and `Factory` (implement the core's `*Factory` interfaces). Doctrine mapping (one per context) and API Platform paths are prepended by `DependencyInjection/ETLExtension`.
+- `src/Run/Infrastructure/Scheduler` — implements the core's `ExpressionScheduler`.
+- `src/Run/Application/PipelineLauncher` — creates, schedules and dispatches a pipeline.
+- `src/<Context>/Infrastructure/Api` — API Platform layer. Entities carry the `#[ApiResource]` attributes (and serialization groups where the core's getters would leak internals); `State` holds the providers/processors, which go through the core's `CommandBus`; `Request` the validated input DTOs; `ETL/Infrastructure/Api/Resource` the non-Doctrine `ExecutableStep` resource.
+- `#[AsAlias]` on each repository, factory and the scheduler — aliases the core interface to its implementation here. Add one when the core adds an interface. New services must sit under a context path covered by `Resources/config/services.yaml`.
 
 ## Commands
 
