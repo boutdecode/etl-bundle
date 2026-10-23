@@ -177,6 +177,8 @@ Steps are plain core steps, nothing is specific to this bundle:
 final class UppercaseStep extends AbstractTransformerStep { /* ... */ }
 ```
 
+The bundle ships one step, `etl.executor.console_command`, which runs a Symfony console command (`command`, `arguments`, `catchExceptions`) and returns its `exitCode` and `output`.
+
 They show up in `GET /steps` and can be used as the `code` of a workflow step.
 
 ## Customising

@@ -23,11 +23,15 @@ services:
         resource: '../../Statistics/Infrastructure/'
         exclude: '../../Statistics/Infrastructure/Persistence/ORM/Entity/'
 
+    # Executable steps provided by this bundle. The core tags them (boutdecode_etl_core.executable_step).
+    BoutDeCode\ETLBundle\ETL\Infrastructure\Step\:
+        resource: '../../ETL/Infrastructure/Step/'
+
     # The implementations of the etl-core interfaces are aliased with #[AsAlias] on each class.
     # Not left to the core: its alias compiler pass skips them, since the core registers every
     # interface of its namespace as an abstract definition.
 
-    # Required by etl-core's ConsoleCommandExecutorStep, which autowires the console application,
+    # Required by this bundle's ConsoleCommandExecutorStep, which autowires the console application,
     # a service Symfony does not register on its own. Applications may override this definition.
     # Not autoconfigured: the application implements ResetInterface and resetting it
     # resets the services again, which would recurse forever.
