@@ -30,12 +30,19 @@ final readonly class WorkflowProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Workflow
+    public function process(
+        mixed $data,
+        Operation $operation,
+        array $uriVariables = [],
+        array $context = []
+    ): Workflow
     {
         $this->assertKnownSteps($data);
 
         if ($operation instanceof Put) {
-            $workflow = $this->workflows->find($uriVariables['id']) ?? throw new NotFoundHttpException('Workflow not found.');
+            $workflow = $this->workflows->find($uriVariables['id']) ??
+                throw new NotFoundHttpException('Workflow not found.');
+
             $workflow->update(
                 $data->name,
                 $data->configuration,

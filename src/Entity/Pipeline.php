@@ -62,7 +62,12 @@ class Pipeline extends AbstractPipeline
     /**
      * @var Collection<int, Step>
      */
-    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'pipeline', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: Step::class,
+        mappedBy: 'pipeline',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     #[ORM\OrderBy([
         'order' => 'ASC',
     ])]

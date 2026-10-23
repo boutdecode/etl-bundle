@@ -28,9 +28,15 @@ final readonly class PlannedTaskExecuteProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): PlannedTask
+    public function process(
+        mixed $data,
+        Operation $operation,
+        array $uriVariables = [],
+        array $context = []
+    ): PlannedTask
     {
-        $plannedTask = $this->plannedTasks->find($uriVariables['id']) ?? throw new NotFoundHttpException('Planned task not found.');
+        $plannedTask = $this->plannedTasks->find($uriVariables['id']) ??
+            throw new NotFoundHttpException('Planned task not found.');
 
         $this->commandBus->dispatch(new ExecutePlannedTaskCommand($plannedTask->getId()));
         $this->entityManager->refresh($plannedTask);

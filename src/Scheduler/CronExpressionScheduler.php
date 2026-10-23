@@ -13,6 +13,8 @@ final class CronExpressionScheduler implements ExpressionScheduler
 {
     public function getNextScheduleFromExpression(string $expression): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable((new CronExpression($expression))->getNextRunDate());
+        $cronExpression = new CronExpression($expression);
+
+        return \DateTimeImmutable::createFromMutable($cronExpression->getNextRunDate());
     }
 }

@@ -35,9 +35,15 @@ final readonly class WorkflowExecuteProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Pipeline
+    public function process(
+        mixed $data,
+        Operation $operation,
+        array $uriVariables = [],
+        array $context = []
+    ): Pipeline
     {
-        $workflow = $this->workflows->find($uriVariables['id']) ?? throw new NotFoundHttpException('Workflow not found.');
+        $workflow = $this->workflows->find($uriVariables['id']) ??
+            throw new NotFoundHttpException('Workflow not found.');
         $payload = $this->payload($context['request'] ?? null);
 
         $pipeline = $this->launcher->launch($workflow, $payload->name, $payload->configuration, $payload->input);

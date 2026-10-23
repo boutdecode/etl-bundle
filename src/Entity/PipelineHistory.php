@@ -70,7 +70,12 @@ class PipelineHistory extends AbstractPipelineHistory
      * @var Collection<int, StepHistory>
      */
     #[Groups(['pipeline_history:read'])]
-    #[ORM\OneToMany(targetEntity: StepHistory::class, mappedBy: 'pipelineHistory', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: StepHistory::class,
+        mappedBy: 'pipelineHistory',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     protected iterable $stepHistories;
 
     /**

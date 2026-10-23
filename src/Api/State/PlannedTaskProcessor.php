@@ -26,19 +26,33 @@ final readonly class PlannedTaskProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): PlannedTask
+    public function process(
+        mixed $data,
+        Operation $operation,
+        array $uriVariables = [],
+        array $context = []
+    ): PlannedTask
     {
         $workflow = $this->workflow($data->workflowId);
 
         if ($operation instanceof Put) {
-            $plannedTask = $this->plannedTasks->find($uriVariables['id']) ?? throw new NotFoundHttpException('Planned task not found.');
+            $plannedTask = $this->plannedTasks->find($uriVariables['id']) ??
+                throw new NotFoundHttpException('Planned task not found.');
+
             $plannedTask->update($data->name, $workflow, $data->schedule, $data->enabled, $data->input, $data->configuration);
             $this->plannedTasks->save($plannedTask);
 
             return $plannedTask;
         }
 
-        $plannedTask = new PlannedTask($data->name, $workflow, $data->schedule, $data->enabled, $data->input, $data->configuration);
+        $plannedTask = new PlannedTask(
+            $data->name,
+            $workflow,
+            $data->schedule,
+            $data->enabled,
+            $data->input,
+            $data->configuration
+        );
         $this->plannedTasks->create($plannedTask);
 
         return $plannedTask;
@@ -46,6 +60,7 @@ final readonly class PlannedTaskProcessor implements ProcessorInterface
 
     private function workflow(string $id): Workflow
     {
-        return $this->workflows->find($id) ?? throw new UnprocessableEntityHttpException(sprintf('Workflow "%s" not found.', $id));
+        return $this->workflows->find($id) ??
+            throw new UnprocessableEntityHttpException(sprintf('Workflow "%s" not found.', $id));
     }
 }

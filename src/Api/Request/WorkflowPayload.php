@@ -21,10 +21,19 @@ final readonly class WorkflowPayload
         #[Assert\All([
             new Assert\Collection(
                 fields: [
-                    'code' => [new Assert\NotBlank(), new Assert\Type('string')],
-                    'name' => new Assert\Optional([new Assert\Type('string')]),
-                    'configuration' => new Assert\Optional([new Assert\Type('array')]),
-                    'order' => new Assert\Optional([new Assert\Type('int')]),
+                    'code' => [
+                        new Assert\NotBlank(),
+                        new Assert\Type('string')
+                    ],
+                    'name' => new Assert\Optional([
+                        new Assert\Type('string')
+                    ]),
+                    'configuration' => new Assert\Optional([
+                        new Assert\Type('array')
+                    ]),
+                    'order' => new Assert\Optional([
+                        new Assert\Type('int')
+                    ]),
                 ],
             ),
         ])]
@@ -32,7 +41,9 @@ final readonly class WorkflowPayload
         public array $configuration = [],
         public bool $notifyOnSuccess = false,
         public bool $notifyOnFailure = false,
-        #[Assert\All([new Assert\Type('string')])]
+        #[Assert\All([
+            new Assert\Type('string')
+        ])]
         public ?array $notificationProviders = null,
     ) {
     }

@@ -25,7 +25,11 @@ final readonly class ExecutableStepProvider implements ProviderInterface
     /**
      * @return array<int, ExecutableStepResource>|ExecutableStepResource|null
      */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|ExecutableStepResource|null
+    public function provide(
+        Operation $operation,
+        array $uriVariables = [],
+        array $context = []
+    ): array|ExecutableStepResource|null
     {
         if ($operation instanceof CollectionOperationInterface) {
             return array_values(array_map($this->resource(...), $this->stepResolver->list()));
@@ -39,6 +43,10 @@ final readonly class ExecutableStepProvider implements ProviderInterface
 
     private function resource(ExecutableStep $step): ExecutableStepResource
     {
-        return new ExecutableStepResource($step->getCode(), $step->getConfigurationDescription(), $step->getConfigurationSchema());
+        return new ExecutableStepResource(
+            $step->getCode(),
+            $step->getConfigurationDescription(),
+            $step->getConfigurationSchema()
+        );
     }
 }

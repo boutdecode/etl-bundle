@@ -33,7 +33,7 @@ class WorkflowStatistic extends AbstractWorkflowStatistic
     private string $id;
 
     #[ORM\OneToOne(targetEntity: Workflow::class)]
-    #[ORM\JoinColumn(name: 'workflow_id', nullable: false, unique: true, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'workflow_id', unique: true, nullable: false, onDelete: 'CASCADE')]
     protected WorkflowInterface $workflow;
 
     #[ORM\Column]
