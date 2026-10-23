@@ -10,7 +10,7 @@
         "php": ">=8.2",
         "api-platform/doctrine-orm": "^4.1",
         "api-platform/symfony": "^4.1",
-        "boutdecode/etl-core-bundle": "^0.14",
+        "boutdecode/etl-core-bundle": "^0.15",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/orm": "^3.6",
         "dragonmantank/cron-expression": "^3.6",

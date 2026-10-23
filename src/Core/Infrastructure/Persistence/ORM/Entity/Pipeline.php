@@ -10,10 +10,12 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Mapping\InMemoryWorkflowPropertyAccessor;
 use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Repository\PipelineRepository;
 use BoutDeCode\ETLBundle\Run\Infrastructure\Api\State\PipelineDeleteProcessor;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\AbstractPipeline;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\InMemoryWorkflow;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow as WorkflowInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -50,9 +52,14 @@ class Pipeline extends AbstractPipeline
     #[ORM\Column(type: Types::GUID)]
     private string $id;
 
+    /**
+     * Nullable in database: an {@see InMemoryWorkflow} is not persistable, so Doctrine never sees it
+     * (see {@see InMemoryWorkflowPropertyAccessor}) and the pipeline is stored without workflow. Typed as in the core,
+     * so the property is left uninitialized (not null) when reloaded without workflow.
+     */
     #[Groups(['pipeline:read'])]
     #[ORM\ManyToOne(targetEntity: Workflow::class)]
-    #[ORM\JoinColumn(name: 'workflow_id', nullable: false)]
+    #[ORM\JoinColumn(name: 'workflow_id', nullable: true)]
     protected WorkflowInterface $workflow;
 
     #[Groups(['pipeline:read'])]
